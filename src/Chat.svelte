@@ -1,16 +1,28 @@
 <script>
+  import ChatClient from './ChatClient';
+
   export let name;
 
   let chatInputValue;
   let chatMessages = [];
 
+  const client = ChatClient();
+
   const handleChatInput = (event) => {
     if (event.key === 'Enter') {
       chatMessages.push({ name, message: chatInputValue });
       chatMessages = chatMessages;
+
+      client.emit("message.send", { name, message: chatInputValue });
+
       chatInputValue = null;
     }
   }
+
+  client.on("message.send", ({ name, message}) => {
+    chatMessages.push({ name, message });
+    chatMessages = chatMessages;
+  })
 </script>
 
 <div class="Chat">
