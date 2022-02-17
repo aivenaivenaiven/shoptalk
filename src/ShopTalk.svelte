@@ -6,46 +6,30 @@
 -->
 
 <script>
+  import Chat from './Chat.svelte';
+
   let name;
   let nameInputValue;
-  let chatInputValue;
-  let chatMessages = [];
 
   const handleNameInput = (event) => {
     if (event.key === 'Enter') {
       name = nameInputValue;
     }
   };
-
-  const handleChatInput = (event) => {
-    if (event.key === 'Enter') {
-      chatMessages.push({ name, message: chatInputValue });
-      chatMessages = chatMessages;
-      chatInputValue = null;
-    }
-  }
 </script>
 
 <div class="ShopTalk">
   {#if name}
-    <p>Hello {name}!</p>
-    <ul>
-      {#each chatMessages as chat}
-        <li>{chat.name}: {chat.message}</li>
-      {/each}
-    </ul>
-    <input
-      name="chat-message"
-      bind:value={chatInputValue}
-      on:keypress={handleChatInput}
-    >
+    <Chat {name} />
   {:else}
-    <label for="name">Hello! Please enter your name.</label>
-    <input
-      name="name"
-      bind:value={nameInputValue}
-      on:keypress={handleNameInput}
-    />
+    <div class="name-container">
+      <label for="name">Hello! Please enter your name.</label>
+      <input
+        name="name"
+        bind:value={nameInputValue}
+        on:keypress={handleNameInput}
+      />
+    </div>
   {/if}
 </div>
 
@@ -55,5 +39,9 @@
     width: 300px;
     border: 1px solid black;
     border-radius: 5px;
+  }
+
+  .name-container {
+    text-align: center;
   }
 </style>
